@@ -14,8 +14,8 @@
 * 显示歌词(目前只支持 .lrc 格式的歌词文件)
 
 ## 演示截图
-1. ![]()
-2. ![]()
+1. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/1.png)
+2. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/2.png)
 
 ## 注意
 * 音乐播放器目前需要手动输入搜索音乐文件夹的绝对路径
