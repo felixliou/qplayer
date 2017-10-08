@@ -14,11 +14,16 @@
 * 显示歌词(目前只支持 .lrc 格式的歌词文件)
 
 ## 演示截图
+### Linux (Ubuntu16.04) 下的演示截图
 1. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/1.png)
 2. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/2.png)
+### Windows7 下的演示截图
+3. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/3.png)
+4. ![](https://raw.githubusercontent.com/felixliou/qplayer/master/ScreenShots/4.png)
 
 ## 注意
 * 音乐播放器目前需要手动输入搜索音乐文件夹的绝对路径
+* 歌词文件名需要与歌曲文件名一致，才可加载歌词文件
 
 ## 许可
 * Licensed under the [MIT license](./LICENSE.md).
