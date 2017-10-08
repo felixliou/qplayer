@@ -61,12 +61,9 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButtonOpen_clicked()
 {
-    QStringList strList = QFileDialog::getOpenFileNames(this, "选择", m_dir.absolutePath(), "MP3 Files (*.mp3)");
-    if (strList.isEmpty()) return;
-    m_player->setMedia(QUrl::fromLocalFile(strList[0]));
-    for (int i = 0; i < strList.size(); i++){
-        qDebug() << strList[i];
-    }
+    QString strTemp = QFileDialog::getOpenFileName(this, "选择", m_dir.absolutePath(), "Music Files (*.mp3 *.wav *.wma *.ape *.acc *.ogg)");
+    if (strTemp.isEmpty()) return;
+    m_player->setMedia(QUrl::fromLocalFile(strTemp));
     m_player->play();
     m_flag = true;
     ui->pushButton_3->setIcon(QIcon(":/images/start.ico"));
@@ -84,7 +81,7 @@ void MainWindow::on_pushButtonSearch_clicked()
 
     ui->listWidget->clear();
     QStringList filters;
-    filters << "*.mp3";
+    filters << "*.mp3" << "*.wav" << "*.wma" << "*.ape" << "*.acc" << "*.ogg";
     QFileInfoList strList =m_dir.entryInfoList(filters, QDir::NoFilter);
     for (int i = 0; i < strList.size(); i++){
         QListWidgetItem *itemMusic = new QListWidgetItem(strList[i].fileName(), NULL);
@@ -117,7 +114,7 @@ void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
          return;
      QListWidgetItem *item = ui->listWidget->currentItem();
      QString strTmp = item->text().split('.')[0] + tr(".lrc");
-     QString filename = m_dir.absolutePath() + tr("/") + strTmp;
+     QString filename = m_dir.absolutePath() + "/"+ strTmp;
      QFile file(filename);
      file.open(QIODevice::ReadOnly);
      QTextStream lyric(&file);
@@ -267,7 +264,7 @@ void MainWindow::on_horizontalSliderVolume_valueChanged(int value)
 // 加载歌词文件
 void MainWindow::loadMusicLyric(QListWidgetItem *item){
     QString strTmp = item->text().split('.')[0] + tr(".lrc");
-    QString filename = m_dir.absolutePath() + '/' + strTmp;
+    QString filename = m_dir.absolutePath() + "/" + strTmp;
     QFile file(filename);
     if ( !file.open(QIODevice::ReadOnly)){
         // 打开歌词文件失败
