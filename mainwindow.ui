@@ -36,16 +36,16 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>80</y>
+      <y>70</y>
       <width>71</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>打开</string>
+     <string>打开歌词</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="pushButtonStEd">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -215,6 +215,19 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDwloadLyric">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>110</y>
+      <width>71</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>下载歌词</string>
     </property>
    </widget>
   </widget>
