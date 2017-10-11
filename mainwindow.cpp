@@ -378,6 +378,8 @@ void MainWindow::loadMusicState(){
 // 下载歌词文件
 void MainWindow::on_pushButtonDwloadLyric_clicked()
 {
+    // 将 m_songId 置零
+    m_songId = 0;
     if (ui->listWidget->count() < 1) return;
     QListWidgetItem *item = ui->listWidget->currentItem();  // 当前选中条目
     QRegExp re("\\-|\\.");
@@ -437,7 +439,9 @@ void MainWindow::parseJsonSongId(QString result){
                         QListWidgetItem *item = ui->listWidget->currentItem();  // 当前选中条目
                         QRegExp re("\\-|\\.");
                         QString singerName = item->text().split(re)[0].trimmed();  // 当前选中歌手的名称
+                        QString musicName = item->text().split(re)[1].trimmed();  // 当前选中歌曲的名称
                         QStringList singerNameList = singerName.split(',');               // 歌手名称列表
+
 
                         for (int i = 0; i< size; i++){
                             QJsonValue songsValue = songsArray[i];
@@ -447,16 +451,18 @@ void MainWindow::parseJsonSongId(QString result){
                                     QJsonValue artistsValue = songObj["artists"];
                                     if  (artistsValue.isArray()){
                                         QJsonArray artistsArray = artistsValue.toArray();
-                                        if (singerNameList.size() != artistsArray.size())
+                                        if (singerNameList.size() > artistsArray.size())
                                             continue;
-                                        for (int j  = 0; j < singerNameList.size(); j++){
-                                            if (singerNameList[j] != artistsArray[j].toObject()["name"].toString())
+                                        for (int j  = 0; j < singerNameList.size();){
+                                            if (singerNameList[j] != artistsArray[j].toObject()["name"].toString()|| !songObj["name"].toString().contains(musicName))
                                                 break;
-                                            m_songId = songObj["id"].toInt();
-                                            qDebug() << m_songId;
+                                            if(++j == singerNameList.size()){
+                                                m_songId = songObj["id"].toInt();
+                                                qDebug() << m_songId;
+                                                return;
+                                            }
                                         }
                                     }
-
                                 }
                             }
                         }
@@ -471,6 +477,10 @@ void MainWindow::parseJsonSongId(QString result){
 void MainWindow::downLoadLyric(int songId){
     // 设置发送数据
     qDebug() << songId << " from 下载歌词文件";
+    if (songId == 0){// 未找到歌词 ID
+        QMessageBox::information(this, tr("失败"), tr("抱歉, 未找到歌词文件!"));
+        return;   // 立刻返回
+    }
     QByteArray bsend;
     //bsend.append("os=pc&");
     bsend.append("id="+QString::number(songId, 10)+"&");
@@ -531,7 +541,8 @@ void MainWindow::parseJsonSongLyric(QString result){
                         file.open(QIODevice::WriteOnly);
                         QByteArray ba;
                         ba.append(musicLyric);
-                        file.write(ba);
+                        QTextStream tsin(&file);// 使用 QTextStream 保证写入文件正确，平台兼容性
+                        tsin << ba;
                         file.close();
                     }
                 }
